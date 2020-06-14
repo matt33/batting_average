@@ -21,7 +21,7 @@ class FiltersFactory
   attr_reader :filter_names, :filter_values
 
   def initialize_filter(name, filter_value)
-    Object.const_get(camelize("#{name}_filter")).new(filter_value)
+    Object.const_get("#{name.capitalize}Filter").new(filter_value)
   end
 
   def ensure_valid_filter_names
@@ -31,9 +31,5 @@ class FiltersFactory
 
   def invalid_filter_names
     filter_names - VALID_FILTER_NAMES
-  end
-
-  def camelize(str)
-    str.split('_').collect(&:capitalize).join
   end
 end

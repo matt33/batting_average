@@ -15,8 +15,9 @@ class CsvProcessor
     processed_players = {}
     CSV.parse(csv_string, headers: true, header_converters: ->(header){ header.to_sym }).map do |csv_row|
       csv_row[:teamID] = team_lookup_table[csv_row[:teamID]]
-      next if filters.map{ |f| f.filtered_out?(csv_row) }.any? || invalid_row?(csv_row)
-      processed_players[row_key(csv_row)] = row_processor(processed_players[row_key(csv_row)], csv_row).call
+      next if filtered_out_or_invalid_row?(csv_row)
+      key_for_row = row_key(csv_row)
+      processed_players[key_for_row] = row_processor(processed_players[key_for_row], csv_row).call
     end
     processed_players
   end
@@ -39,5 +40,9 @@ class CsvProcessor
 
   def invalid_row?(csv_row)
     csv_row.values_at(*REQUIRED_FIELDS).any?(&:nil?)
+  end
+
+  def filtered_out_or_invalid_row?(csv_row)
+    filters.map{ |f| f.filtered_out?(csv_row) }.any? || invalid_row?(csv_row)
   end
 end

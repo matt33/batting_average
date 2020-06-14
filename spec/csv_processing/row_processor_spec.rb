@@ -16,7 +16,7 @@ describe RowProcessor do
     end
   end
 
-  context 'combines two rows' do
+  context 'when combining two rows' do
     let(:processed_players_row) do
       { :playerID=>"espinpa01", :yearID=>"2017", :teamID=>"San Antonio", :AB=>9, :H=>7 }
     end

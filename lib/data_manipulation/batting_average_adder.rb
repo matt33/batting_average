@@ -5,7 +5,7 @@ class BattingAverageAdder
 
   def call
     players_hash.each do |key, player|
-      players_hash[key] = player.merge(batting_average_for(player))
+      players_hash[key] = player.merge!(batting_average_for(player))
     end
     players_hash
   end
